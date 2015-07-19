@@ -2,6 +2,7 @@ with Ada.Interrupts.Names;
 with Ada.Unchecked_Conversion;
 with System.OS_Interface;
 with System.STM32F4; use System.STM32F4;
+with System.STM32F4.GPIO; use System.STM32F4.GPIO;
 
 package body Serial_Port is
 

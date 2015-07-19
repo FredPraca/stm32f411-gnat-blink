@@ -27,6 +27,7 @@
 
 with Ada.Interrupts.Names;
 with System.STM32F4; use System.STM32F4;
+with System.STM32F4.GPIO; use System.STM32F4.GPIO;
 with Ada.Real_Time; use Ada.Real_Time;
 
 package body Button is

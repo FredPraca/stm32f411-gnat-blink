@@ -26,6 +26,7 @@
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
+with System.STM32F4.GPIO; use System.STM32F4.GPIO;
 
 package body LEDs is
 

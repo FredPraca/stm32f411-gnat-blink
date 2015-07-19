@@ -19,13 +19,16 @@ project Firmware is
    package Builder is
       for Switches ("ada") use
          ("-g",
-          "--RTS=/home/nick/dev/ravenscar-sfp-stm32f411-nucleo/ravenscar-sfp-stm32f411-nucleo");
+          "--RTS=/home/fred/Dev/Ada/stm32/ravenscar-sfp-stm32f411-nucleo/ravenscar-sfp-stm32f411-nucleo");
    end Builder;
 
    package Ide is
       for Gnat use "arm-eabi-gnat";
       for Gnatlist use "arm-eabi-gnatls";
       for Debugger_Command use "arm-eabi-gdb";
+      for Program_Host use "localhost:4242";
+      for Communication_Protocol use "remote";
+
    end Ide;
 
 end Firmware;
