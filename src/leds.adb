@@ -28,6 +28,9 @@
 with Ada.Unchecked_Conversion;
 with System.STM32F4.GPIO; use System.STM32F4.GPIO;
 
+with System.STM32F4.Reset_Clock_Control;
+use System.STM32F4.Reset_Clock_Control;
+
 package body LEDs is
 
    All_LEDs_On  : constant Word := 2**5;
@@ -47,10 +50,9 @@ package body LEDs is
 
 
    procedure Initialize is
-      RCC_AHB1ENR_GPIOA : constant Word := 2**0;
    begin
       --  Enable clock for GPIO-A
-      RCC.AHB1ENR := RCC.AHB1ENR or RCC_AHB1ENR_GPIOA;
+      RCC.RCC_AHB1ENR.GPIOA_Clock_Enable := True;
 
       --  Configure PA5
       GPIOA.MODER   (5) := GPIO.Mode_OUT;
