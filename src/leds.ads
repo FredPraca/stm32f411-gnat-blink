@@ -28,8 +28,6 @@
 --  This file provides declarations for the user LEDs on the STM32F4 Discovery
 --  board from ST Microelectronics.
 
-with System.STM32F4; use System.STM32F4;
-
 package LEDs is
    pragma Elaborate_Body;
 

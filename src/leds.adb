@@ -26,7 +26,13 @@
 ------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
+
+with System.STM32F4; use System.STM32F4;
+
 with System.STM32F4.GPIO; use System.STM32F4.GPIO;
+
+with System.STM32F4.Reset_Clock_Control;
+use System.STM32F4.Reset_Clock_Control;
 
 package body LEDs is
 
@@ -45,20 +51,17 @@ package body LEDs is
       GPIOA.BSRR := GPIOA.BSRR or All_LEDs_On;
    end All_On;
 
-
    procedure Initialize is
-      RCC_AHB1ENR_GPIOA : constant Word := 2**0;
    begin
       --  Enable clock for GPIO-A
-      RCC.AHB1ENR := RCC.AHB1ENR or RCC_AHB1ENR_GPIOA;
+      RCC.RCC_AHB1ENR.GPIOA_Clock_Enable := True;
 
       --  Configure PA5
-      GPIOA.MODER   (5) := GPIO.Mode_OUT;
-      GPIOA.OTYPER  (5) := GPIO.Type_PP;
-      GPIOA.OSPEEDR (5) := GPIO.Speed_100MHz;
-      GPIOA.PUPDR   (5) := GPIO.No_Pull;
+      GPIOA.MODER   (5) := Mode_OUT;
+      GPIOA.OTYPER  (5) := Type_PP;
+      GPIOA.OSPEEDR (5) := Speed_100MHz;
+      GPIOA.PUPDR   (5) := No_Pull;
    end Initialize;
-
 
 begin
    Initialize;

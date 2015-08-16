@@ -27,7 +27,18 @@
 
 with Ada.Interrupts.Names;
 with System.STM32F4; use System.STM32F4;
+
 with System.STM32F4.GPIO; use System.STM32F4.GPIO;
+
+with System.STM32F4.External_Interrupts;
+use System.STM32F4.External_Interrupts;
+
+with System.STM32F4.Reset_Clock_Control;
+use System.STM32F4.Reset_Clock_Control;
+
+with System.STM32F4.System_Configuration;
+use System.STM32F4.System_Configuration;
+
 with Ada.Real_Time; use Ada.Real_Time;
 
 package body Button is
@@ -60,7 +71,7 @@ package body Button is
          Now : constant Time := Clock;
       begin
          --  Clear interrupt
-         EXTI.PR (13) := 1;
+         EXTI.PR (13) := True;
 
          --  Debouncing
          if Now - Last_Time >= Debounce_Time then
@@ -82,27 +93,26 @@ package body Button is
    end Blink_Speed;
 
    procedure Initialize is
-      RCC_AHB1ENR_GPIOC : constant Word := 2**2;
-      RCC_APB2ENR_SYSCFG : constant Word := 2**14;
-   begin
+      begin
       --  Enable clock for GPIOC
-      RCC.AHB1ENR := RCC.AHB1ENR or RCC_AHB1ENR_GPIOC;
-      RCC.APB2ENR := RCC.APB2ENR or RCC_APB2ENR_SYSCFG;
+      RCC.RCC_AHB1ENR.GPIOC_Clock_Enable := True;
+      RCC.RCC_APB2ENR.Sys_Config_Clock_Enable := True;
 
       --  Configure PC13
-      GPIOC.MODER (13) := GPIO.Mode_IN;
-      GPIOC.PUPDR (13) := GPIO.No_Pull;
+      GPIOC.MODER (13) := Mode_IN;
+      GPIOC.PUPDR (13) := No_Pull;
 
       --  Select PC13 for EXTI13
       -- See Page 139 of the RM0383 datasheet
-      SYSCFG.EXTICR4 (1) := SYSCFG_Constants.PORTC;
+      SYSCFG.SYSCFG_EXTICR(4).Sources(1) := PORT_C;
 
       --  Interrupt on falling edge
-      EXTI.FTSR (13) := 1;
-      EXTI.RTSR (13) := 0;
+      EXTI.FTSR (13) := True;
+      EXTI.RTSR (13) := False;
 
       -- Disable all other interrupts but ours
-      EXTI.IMR := (13 => 1, others => 0);
+      EXTI.IMR := (13 => True, others => False);
+
    end Initialize;
 
 begin

@@ -19,7 +19,8 @@ project Firmware is
    package Builder is
       for Switches ("ada") use
          ("-g",
-          "--RTS=/home/fred/Dev/Ada/stm32/ravenscar-sfp-stm32f411-nucleo/ravenscar-sfp-stm32f411-nucleo");
+	"--RTS=/home/fred/Dev/Ada/stm32/ravenscar-sfp-stm32f411-nucleo/ravenscar-sfp-stm32f411-nucleo");
+         -- "--RTS=/home/nick/dev/ravenscar-sfp-stm32f411-nucleo/ravenscar-sfp-stm32f411-nucleo");
    end Builder;
 
    package Ide is

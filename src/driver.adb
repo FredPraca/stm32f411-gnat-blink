@@ -30,11 +30,6 @@ with Button;        use Button;
 with Serial_Port;
 with Ada.Real_Time; use Ada.Real_Time;
 
---  with System.STM32F4.Timers.GeneralPurpose;
---  use System.STM32F4.Timers.GeneralPurpose;
-with Ada.Interrupts;
-with Ada.Interrupts.Names;
-
 package body Driver is
 
    function Delay_Period(Period : in Blink_Period) return Time_Span is
@@ -49,9 +44,7 @@ package body Driver is
    task body LED_Controller is
       Next_Start : Time := Clock;
       Light_On : Boolean := False;
-
    begin
-
       All_Off;
       loop
          if not Light_On then
@@ -80,7 +73,7 @@ package body Driver is
       Serial_Port.Write_Line("Serial online!");
       loop
          begin
-            Serial_Port.Read(Line_Buffer, Characters_Read);
+            Serial_Port.Read_Line(Line_Buffer, Characters_Read);
             if Characters_Read > 0 then
                Serial_Port.Write(Line_Buffer(Line_Buffer'First..(Line_Buffer'First + Characters_Read)));
             end if;
